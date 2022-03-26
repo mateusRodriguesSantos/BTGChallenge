@@ -25,12 +25,20 @@ class SearchViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        navigationItem.searchController = SearchBarViewController(buttonScopes: [], self)
         navigationItem.setHidesBackButton(true, animated: false)
         navigationItem.title = viewModel.title
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.setNavigationBarHidden(false, animated: animated)
     }
 }
+
+extension SearchViewController: SearchBarDelegate {
+    func textDidChangeSearchController(_ text: String, _ scope: Int) {
+        viewModel.searchedText.onNext(text)
+    }
+}
+
 
 extension SearchViewController: SearchDelegate {
     func currencieSelectedClicked(_ cell: CurrencyCellView) {

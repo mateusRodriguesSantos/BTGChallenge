@@ -7,14 +7,15 @@
 
 import NetworkCore
 
-protocol QuotesProtocol: NetworkProtocol where T == Quotes {
+protocol QuotesProtocol {
     func fetchQuotes(completion: @escaping (Result<[String:Double], ErrorsRequests>) -> Void)
 }
 
 class QuotesService: QuotesProtocol {
-
+    
+    let service = NetworkTasks<Quotes>()
     func fetchQuotes(completion: @escaping (Result<[String:Double], ErrorsRequests>) -> Void) {
-        execute(
+        service.execute(
             connection: ConnectionLive()
         ) { result in
             switch result {

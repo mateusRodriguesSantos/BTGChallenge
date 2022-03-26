@@ -7,6 +7,6 @@
 
 import Foundation
 
-class Quotes: Decodable {
+class Quotes: Codable {
     let quotes:[String:Double]
 }

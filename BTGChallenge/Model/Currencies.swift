@@ -7,6 +7,6 @@
 
 import Foundation
 
-class Currencies: Decodable {
+class Currencies: Codable {
     let currencies:[String:String]
 }

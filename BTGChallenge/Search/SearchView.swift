@@ -52,6 +52,7 @@ extension SearchView {
         .disposed(by: self.disposeBag)
     }
     
+    
     private func observerSelection() {
         characterTableView.rx.itemSelected.asObservable().subscribe(onNext: { [weak self] element in
             if let cell = self?.characterTableView.cellForRow(at: element) as? CurrencyCellView {

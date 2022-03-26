@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DC03557827EF9542009FE6AF /* SearchBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC03557727EF9542009FE6AF /* SearchBarViewController.swift */; };
 		DC0F061827EE105A0042614D /* CurrencieService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC0F061727EE105A0042614D /* CurrencieService.swift */; };
 		DC0F061A27EE11080042614D /* ConnectionList.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC0F061927EE11080042614D /* ConnectionList.swift */; };
 		DC0F061C27EE111A0042614D /* ConnectionLive.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC0F061B27EE111A0042614D /* ConnectionLive.swift */; };
@@ -64,6 +65,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		DC03557727EF9542009FE6AF /* SearchBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarViewController.swift; sourceTree = "<group>"; };
 		DC0F061727EE105A0042614D /* CurrencieService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencieService.swift; sourceTree = "<group>"; };
 		DC0F061927EE11080042614D /* ConnectionList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionList.swift; sourceTree = "<group>"; };
 		DC0F061B27EE111A0042614D /* ConnectionLive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionLive.swift; sourceTree = "<group>"; };
@@ -230,6 +232,7 @@
 				DC1933C027EDE666008BEA08 /* SearchViewController.swift */,
 				DC0F062627EE1F450042614D /* SearchView.swift */,
 				DC0F062827EE21FE0042614D /* CurrencyCellView.swift */,
+				DC03557727EF9542009FE6AF /* SearchBarViewController.swift */,
 			);
 			path = Search;
 			sourceTree = "<group>";
@@ -439,6 +442,7 @@
 				DC0F062727EE1F450042614D /* SearchView.swift in Sources */,
 				DC19338A27EDE4AD008BEA08 /* ConversionViewController.swift in Sources */,
 				DC1933D827EE0B33008BEA08 /* UITextFieldExtension.swift in Sources */,
+				DC03557827EF9542009FE6AF /* SearchBarViewController.swift in Sources */,
 				DC1933D327EE0324008BEA08 /* StringExtensions.swift in Sources */,
 				DC0F062127EE12E10042614D /* Currencies.swift in Sources */,
 				DC19338627EDE4AD008BEA08 /* AppDelegate.swift in Sources */,

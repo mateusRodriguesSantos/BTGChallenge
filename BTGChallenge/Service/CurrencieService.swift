@@ -7,14 +7,16 @@
 
 import NetworkCore
 
-protocol CurrencieProtocol: NetworkProtocol where T == Currencies {
+protocol CurrencieProtocol {
     func fetchCurrencys(completion: @escaping (Result<[String : String], ErrorsRequests>) -> Void)
 }
 
 class CurrencieService: CurrencieProtocol {
     
+    let service = NetworkTasks<Currencies>()
+    
     func fetchCurrencys(completion: @escaping (Result<[String : String], ErrorsRequests>) -> Void) {
-        execute(
+        service.execute(
             connection: ConnectionList()
         ) { result in
             switch result {
