@@ -48,12 +48,13 @@ class SearchViewModel {
     
     func addObservableSearch() {
         searchedText.subscribe(onNext: { [weak self] textSearch in
-            if textSearch.isEmpty {
+            let textLower = textSearch.lowercased()
+            if textLower.isEmpty {
                 self?.listCurrencyRelay.accept(self?.listCurrency ?? [:])
             } else {
                 var dictionarySearch: [String:String] = [:]
                 self?.listCurrency.forEach({ key, value in
-                    if key.contains(textSearch) || value.contains(textSearch) {
+                    if key.lowercased().contains(textLower) || value.lowercased().contains(textLower) {
                         dictionarySearch[key] = value
                     }
                 })
