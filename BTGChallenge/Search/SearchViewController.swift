@@ -26,6 +26,7 @@ class SearchViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationItem.searchController = SearchBarViewController(buttonScopes: [], self)
+        navigationItem.hidesSearchBarWhenScrolling = false
         navigationItem.setHidesBackButton(true, animated: false)
         navigationItem.title = viewModel.title
         navigationController?.navigationBar.prefersLargeTitles = true
