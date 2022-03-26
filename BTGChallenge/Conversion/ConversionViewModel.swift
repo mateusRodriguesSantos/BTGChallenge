@@ -50,6 +50,10 @@ class ConversionViewModel {
         }
     }
     
+    func formatValue(_ valueToFormat: Double) -> Double {
+        return Double(round(1000*valueToFormat)/1000)
+    }
+    
     func convert(_ valueToConvert: String) {
         let acronymOne = UserDefaults.standard.string(forKey: "valueOne")
         let acronymTwo = UserDefaults.standard.string(forKey: "valueTwo")
@@ -59,7 +63,7 @@ class ConversionViewModel {
             quotes.forEach { quote, valueQuote in
                 if quote == "USD\(acronymTwo ?? String())" {
                     print("Quote used: \(quote) - \(valueQuote)")
-                    result.onNext("\(value * valueQuote)")
+                    result.onNext("\(formatValue(value * valueQuote))")
                     return
                 }
             }
@@ -67,7 +71,7 @@ class ConversionViewModel {
             quotes.forEach { quote, valueQuote in
                 if quote == "USD\(acronymOne ?? String())" {
                     print("Quote used: \(quote) - \(valueQuote)")
-                    result.onNext("\(value / valueQuote)")
+                    result.onNext("\(formatValue(value / valueQuote))")
                     return
                 }
             }
@@ -77,10 +81,10 @@ class ConversionViewModel {
             let partialValue = value /  (quoteOne.first?.value ?? 0.0)
             let quoteTwo = quotes.filter { $0.key == "USD\(acronymTwo ?? String())" }
             print("Quote used: \(quoteTwo.first?.key as Any) - \(quoteTwo.first?.value ?? 0.0)")
-            result.onNext("\(partialValue * (quoteTwo.first?.value ?? 0.0))")
+            result.onNext("\(formatValue(partialValue * (quoteTwo.first?.value ?? 0.0)))")
             return
         } else {
-            result.onNext("\(value)")
+            result.onNext("\(formatValue(value))")
         }
     }
     
