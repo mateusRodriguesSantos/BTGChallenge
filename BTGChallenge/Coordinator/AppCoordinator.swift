@@ -7,23 +7,6 @@
 
 import UIKit
 
-struct PeformNavigation {
-    static func navigate(event: Destinys) {
-        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-              let sceneDelegate = windowScene.delegate as? SceneDelegate
-        else {
-            return
-        }
-        guard let listCoordinators = sceneDelegate.appCoordinator?.childCoordinators else { return }        
-        sceneDelegate.appCoordinator?.callEvent(event: event)
-        if !listCoordinators.isEmpty {
-            listCoordinators.forEach({ coordinator in
-                coordinator.callEvent(event: event)
-            })
-        }
-    }
-}
-
 protocol Events {
     func callEvent(event: Destinys)
 }
@@ -63,10 +46,11 @@ class AppCoordinator: CoordinatorProtocol, AppCoordinatorType {
     private let window: UIWindow
     internal var navigationController: UINavigationController?
     
-    init(window: UIWindow) {
+    init(window: UIWindow, navigationController: UINavigationController = UINavigationController()) {
         self.window = window
-        childCoordinators = []
-        id = UUID().uuidString
+        self.childCoordinators = []
+        self.id = UUID().uuidString
+        self.navigationController = navigationController
     }
     
     func start() {
@@ -82,46 +66,34 @@ class AppCoordinator: CoordinatorProtocol, AppCoordinatorType {
         if let eventNav = event as? AppCoordinatorDestinys {
             switch eventNav {
             case .home:
-                navigateToHome()
+                navigationController?.popToRootViewController(animated: true)
             case .conversion:
-                navigateToConversion()
+                guard let navigationController = navigationController else { return }
+                let coordinator = ConversionCoordinator()
+                childCoordinators.append(coordinator)
+                coordinator.start(navigation: navigationController)
+                
             case .search:
-                navigateToSearch()
+                guard let navigationController = navigationController else { return }
+                let coordinator = SearchCoordinator()
+                childCoordinators.append(coordinator)
+                coordinator.start(navigation: navigationController)
+                
             case .removeItem(let coordinator):
                 childCoordinators.enumerated().forEach { index, element in
                     if element.id == coordinator.id {
                         childCoordinators.remove(at: index)
                     }
                 }
+                
             case .conversionWithAcronym(let acronym):
                 guard let navigationController = navigationController else { return }
                 let coordinator = ConversionCoordinator()
                 childCoordinators.append(coordinator)
                 coordinator.start(data: acronym, navigation: navigationController)
+                
             }
         }
-    }
-    
-}
-
-extension AppCoordinator {
-    
-    func navigateToHome() {
-        navigationController?.popToRootViewController(animated: true)
-    }
-    
-    func navigateToConversion() {
-        guard let navigationController = navigationController else { return }
-        let coordinator = ConversionCoordinator()
-        childCoordinators.append(coordinator)
-        coordinator.start(navigation: navigationController)
-    }
-    
-    func navigateToSearch() {
-        guard let navigationController = navigationController else { return }
-        let coordinator = SearchCoordinator()
-        childCoordinators.append(coordinator)
-        coordinator.start(navigation: navigationController)
     }
     
 }

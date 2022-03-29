@@ -9,16 +9,24 @@ import UIKit
 
 class ConversionViewController: UIViewController {
 
+    let theView: ConversionView
+    let userDefault: UserDefaults
     var viewModel: ConversionViewModel
 
-    init(acronym: String) {
-        viewModel = ConversionViewModel(acronym: acronym)
+    init(acronym: String, userDefault: UserDefaults = UserDefaults.standard) {
+        self.viewModel = ConversionViewModel(acronym: acronym)
+        self.theView = ConversionView(viewModel: self.viewModel)
+        self.userDefault = userDefault
         super.init(nibName: nil, bundle: nil)
+        theView.delegate = self
     }
     
-    init() {
-        viewModel = ConversionViewModel(acronym: nil)
+    init(viewModel: ConversionViewModel = ConversionViewModel(acronym: nil), userDefault: UserDefaults = UserDefaults.standard) {
+        self.viewModel = viewModel
+        self.theView = ConversionView(viewModel: self.viewModel)
+        self.userDefault = userDefault
         super.init(nibName: nil, bundle: nil)
+        theView.delegate = self
     }
     
     @available(*, unavailable)
@@ -32,9 +40,8 @@ class ConversionViewController: UIViewController {
     }
     override func loadView() {
         super.loadView()
-        let viewConversion = ConversionView(viewModel: self.viewModel)
-        viewConversion.delegate = self
-        self.view = viewConversion
+        theView.delegate = self
+        self.view = theView
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -54,12 +61,12 @@ extension ConversionViewController: ConversionDelegate {
     }
     
     func buttonChoiceCurrencyOneClicked() {
-        UserDefaults.standard.set(true, forKey: "setvalueOne")
+        userDefault.set(true, forKey: "setvalueOne")
         PeformNavigation.navigate(event: ConversionCoordinatorDestinys.search)
     }
     
     func buttonChoiceCurrencyTwoClicked() {
-        UserDefaults.standard.set(true, forKey: "setvalueTwo")
+        userDefault.set(true, forKey: "setvalueTwo")
         PeformNavigation.navigate(event: ConversionCoordinatorDestinys.search)
     }
     

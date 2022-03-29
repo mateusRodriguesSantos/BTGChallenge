@@ -12,7 +12,7 @@ import RxRelay
 class SearchViewModel {
     
     let title: String
-    let service: CurrencieService
+    let service: CurrencieProtocol
     let disposeBag = DisposeBag()
     var listAcronym: [String]
     var listName: [String]
@@ -21,7 +21,7 @@ class SearchViewModel {
     var listCurrencyRelay: BehaviorRelay<[String:String]>
     var searchedText: PublishSubject<String>
     
-    init(service: CurrencieService = CurrencieService()) {
+    init(service: CurrencieProtocol = CurrencieService()) {
         self.service = service
         title = "Qual moeda ?"
         listAcronym = []

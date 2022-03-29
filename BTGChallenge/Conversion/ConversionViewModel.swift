@@ -11,8 +11,8 @@ import RxCocoa
 
 class ConversionViewModel {
     
-    let service: QuotesService
-    
+    let service: QuotesProtocol
+    let userDefault: UserDefaults
     let title: String
     let acronym: String?
     let placeholderConvertion: String
@@ -23,8 +23,9 @@ class ConversionViewModel {
     var quotes: [String : Double]
     var result: PublishSubject<String>
     
-    init(acronym: String?, service: QuotesService = QuotesService()) {
+    init(acronym: String?, service: QuotesProtocol = QuotesService(), userDefault: UserDefaults = UserDefaults.standard) {
         self.service = service
+        self.userDefault = userDefault
         self.acronym = acronym
         self.title = "Convert Moneys"
         self.placeholderConvertion = "Valor à converter"
@@ -55,36 +56,36 @@ class ConversionViewModel {
     }
     
     func convert(_ valueToConvert: String) {
-        let acronymOne = UserDefaults.standard.string(forKey: "valueOne")
-        let acronymTwo = UserDefaults.standard.string(forKey: "valueTwo")
-        let value = getNumber(valueToConvert)
-        
-        if acronymOne == "USD" && acronymTwo != "USD" {
-            quotes.forEach { quote, valueQuote in
-                if quote == "USD\(acronymTwo ?? String())" {
-                    print("Quote used: \(quote) - \(valueQuote)")
-                    result.onNext("\(formatValue(value * valueQuote))")
-                    return
+        if let acronymOne = userDefault.string(forKey: "valueOne"), let acronymTwo = userDefault.string(forKey: "valueTwo") {
+            let value = getNumber(valueToConvert)
+            
+            if acronymOne == "USD" && acronymTwo != "USD" {
+                quotes.forEach { quote, valueQuote in
+                    if quote == "USD\(acronymTwo)" {
+                        print("Quote used: \(quote) - \(valueQuote)")
+                        result.onNext("\(formatValue(value * valueQuote))")
+                        return
+                    }
                 }
-            }
-        } else if acronymOne != "USD" && acronymTwo == "USD" {
-            quotes.forEach { quote, valueQuote in
-                if quote == "USD\(acronymOne ?? String())" {
-                    print("Quote used: \(quote) - \(valueQuote)")
-                    result.onNext("\(formatValue(value / valueQuote))")
-                    return
+            } else if acronymOne != "USD" && acronymTwo == "USD" {
+                quotes.forEach { quote, valueQuote in
+                    if quote == "USD\(acronymOne)" {
+                        print("Quote used: \(quote) - \(valueQuote)")
+                        result.onNext("\(formatValue(value / valueQuote))")
+                        return
+                    }
                 }
+            } else if acronymOne != "USD" && acronymTwo != "USD" {
+                let quoteOne = quotes.filter { $0.key == "USD\(acronymOne)" }
+                print("Quote used: \(quoteOne.first?.key as Any) - \(quoteOne.first?.value ?? 0.0)")
+                let partialValue = value /  (quoteOne.first?.value ?? 0.0)
+                let quoteTwo = quotes.filter { $0.key == "USD\(acronymTwo)" }
+                print("Quote used: \(quoteTwo.first?.key as Any) - \(quoteTwo.first?.value ?? 0.0)")
+                result.onNext("\(formatValue(partialValue * (quoteTwo.first?.value ?? 0.0)))")
+                return
+            } else {
+                result.onNext("\(formatValue(value))")
             }
-        } else if acronymOne != "USD" && acronymTwo != "USD" {
-            let quoteOne = quotes.filter { $0.key == "USD\(acronymOne ?? String())" }
-            print("Quote used: \(quoteOne.first?.key as Any) - \(quoteOne.first?.value ?? 0.0)")
-            let partialValue = value /  (quoteOne.first?.value ?? 0.0)
-            let quoteTwo = quotes.filter { $0.key == "USD\(acronymTwo ?? String())" }
-            print("Quote used: \(quoteTwo.first?.key as Any) - \(quoteTwo.first?.value ?? 0.0)")
-            result.onNext("\(formatValue(partialValue * (quoteTwo.first?.value ?? 0.0)))")
-            return
-        } else {
-            result.onNext("\(formatValue(value))")
         }
     }
     
@@ -99,16 +100,17 @@ class ConversionViewModel {
     }
     
     func valueUserDefault(valueToCheck: String,_ option: Int) -> String {
-        if !UserDefaults.standard.bool(forKey: "set\(valueToCheck)") {
-            if let valueTwo = UserDefaults.standard.string(forKey: valueToCheck) {
+        if !userDefault.bool(forKey: "set\(valueToCheck)") {
+            if let valueTwo = userDefault.string(forKey: valueToCheck) {
                 return "\(valueTwo)"
             } else {
                 return "Moeda \(option)"
             }
         } else {
-            UserDefaults.standard.set(acronym, forKey: valueToCheck)
-            UserDefaults.standard.set(false, forKey: "set\(valueToCheck)")
+            userDefault.set(acronym, forKey: valueToCheck)
+            userDefault.set(false, forKey: "set\(valueToCheck)")
             return "\(acronym ?? String())"
         }
     }
+    
 }

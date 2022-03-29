@@ -9,13 +9,24 @@ import UIKit
 
 class SearchViewController: UIViewController {
 
-    let viewModel = SearchViewModel()
+    let theView: SearchView
+    var viewModel = SearchViewModel()
 
+    init(viewModel: SearchViewModel = SearchViewModel()) {
+        self.viewModel = viewModel
+        self.theView = SearchView(viewModel: self.viewModel)
+        super.init(nibName: nil, bundle: nil)
+        theView.delegate = self
+    }
+    
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func loadView() {
         super.loadView()
-        let viewSearch = SearchView(viewModel: self.viewModel)
-        viewSearch.delegate = self
-        self.view = viewSearch
+        self.view = theView
     }
     
     override func viewDidLoad() {

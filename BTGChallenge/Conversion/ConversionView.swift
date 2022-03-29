@@ -30,7 +30,7 @@ class ConversionView: UIView {
     var destinyCurrencyButton: UIButton
     var convertionButton: UIButton
 
-    init(viewModel: ConversionViewModel) {
+    init(viewModel: ConversionViewModel, frame: CGRect = .zero) {
         self.viewModel = viewModel
         self.stackViewConvertion = UIStackView()
         self.stackViewResult = UIStackView()
@@ -39,7 +39,7 @@ class ConversionView: UIView {
         self.originCurrencyButton = UIButton()
         self.destinyCurrencyButton = UIButton()
         self.convertionButton = UIButton()
-        super.init(frame: .zero)
+        super.init(frame: frame)
         applyViewCode()
         setUpObservers()
     }

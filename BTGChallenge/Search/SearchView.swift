@@ -22,10 +22,10 @@ class SearchView: UIView {
     
     var characterTableView: UITableView!
     
-    init(viewModel: SearchViewModel) {
+    init(viewModel: SearchViewModel, frame: CGRect = .zero) {
         self.viewModel = viewModel
         characterTableView = UITableView()
-        super.init(frame: .zero)
+        super.init(frame: frame)
         applyViewCode()
         setUpObservers()
     }
