@@ -23,7 +23,7 @@ PS: Ao instalar o RxSwift, atentar para instalar o módulo RxTest apenas no targ
 
 ios-snapshot-test-case: https://github.com/uber/ios-snapshot-test-case.git
 
-**Como usar o SPM, para instalar dependências ?**
+## Como usar o SPM, para instalar dependências ?
 
 Para instalar no SPM é fácil, apenas clicar no target de projeto(Passo 1) e seguir à opção "Package Dependencies"(Passo 2) . Será aberto uma lista pela qual, ao clicar em "+"(Passo 3), você será levado à outra janela(Passo 4), onde irá colocar a URL da dependência(Passo 5), esperar carregar e clicar em "Add package"(Passo 6). Após isso, dependência será instalada sem problemas.
 
