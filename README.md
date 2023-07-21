@@ -1,6 +1,6 @@
 # BTGChallenge
 
-Projeto criado para o processo seletivo BTG. 
+Projeto criado para o processo seletivo BTG. Utilizando RxSwift.
 
 ## Installation
 
